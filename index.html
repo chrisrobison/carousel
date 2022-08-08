@@ -7,44 +7,111 @@
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
 <main>
-
+    <button class="nav" id="prevBtn" onclick="return app.carousel.previous()">▸</button>
+    
     <div id="carousel" class="carousel">
 
-       <div id='iten_1' class="hideLeft">
-        <img src="https://i1.sndcdn.com/artworks-000165384395-rhrjdn-t500x500.jpg">
+      <div class="album hideLeft">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/8866f914908c406cc0351ed9b01953be.jpg">
+        <div class="sleeve"></div>
+        <div class="title">
+            <div class="artist">Teenage Bottlerocket</div>
+            <div class='albumName'>They Came from the Shadows</div>
+        </div>
+      </div>
+      
+      <div class="album prev-4">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/485441f1d4bc4b7186a608c00167a0c0.jpg">
+        <div class="sleeve"></div>
+        <div class="title">
+            <div class="artist">Beastie Boys</div>
+            <div class='albumName'>Licensed to Ill</div>
+        </div>
       </div>
 
-      <div id='item_2' class="prevLeftSecond">
-        <img src="https://i1.sndcdn.com/artworks-000185743981-tuesoj-t500x500.jpg">
+      <div class="album prev-3">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/2d042fbd7f0440659158dfc0bd89514b.png">
+        <div class="sleeve"></div>
+        <div class="title">
+            <div class="artist">Bad Religion</div>
+            <div class="albumName">No Control</div>
+        </div>
       </div>
 
-      <div id='item_3' class="prev">
-        <img src="https://i1.sndcdn.com/artworks-000158708482-k160g1-t500x500.jpg">
+      <div class="album prev-2">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/0f05cdb52e9242bd8dd4aa9cf1ce2fb7.png">
+        <div class="sleeve"></div>
+        <div class="title">
+            <div class="artist">Pink Floyd</div>
+            <div class="albumName">Dark Side of the Moon</div>
+        </div>
       </div>
 
-      <div id='item_4' class="selected">
-        <img src="https://i1.sndcdn.com/artworks-000062423439-lf7ll2-t500x500.jpg">
+      <div class="album prev-1">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/de791ab41c114872a7d75f15f032051a.png">
+        <div class="sleeve"></div>
+        <div class="title">
+            <div class="artist">Led Zeppelin</div>
+            <div class="albumName">Houses of the Holy</div>
+        </div>
       </div>
 
-      <div id='item_5' class="next">
-        <img src="https://i1.sndcdn.com/artworks-000028787381-1vad7y-t500x500.jpg">
+      <div class="album selected">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/39d8c1c20141990d5cf9cbbc5f5079c3.jpg">
+        <div class="sleeve"></div>
+        <div class='title'>
+            <div class="artist">NOFX</div>
+            <div class="albumName">The Decline</div>
+        </div>
       </div>
 
-      <div id='item_6' class="nextRightSecond">
-        <img src="https://i1.sndcdn.com/artworks-000108468163-dp0b6y-t500x500.jpg">
+      <div class="album next-1">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/8ccf72110f0b145cd829451838b9e11e.jpg">
+        <div class="sleeve"></div>
+        <div class='title'>
+            <div class="artist">Bad Religion</div>
+            <div class="albumName">Suffer</div>
+        </div>
       </div>
 
-      <div id='item_7' class="hideRight">
-        <img src="https://i1.sndcdn.com/artworks-000064920701-xrez5z-t500x500.jpg">
+      <div class="album next-2">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/af251669a48a4bafb448e1f6c0de01be.png">
+        <div class="sleeve"></div>
+        <div class='title'>
+            <div class="artist">The Beatles</div>
+            <div class="albumName">Abbey Road</div>
+        </div>
       </div>
 
-      <div id='item_8' class="hideRight">
-        <img src="https://lastfm.freetls.fastly.net/i/u/300x300/1f89759fa92b4c8f86cd7efac06f2d90.png">
+      <div class="album next-3">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/240bf74094e84d4ba1cee4b63dc28f2a.jpg">
+        <div class="sleeve"></div>
+        <div class='title'>
+            <div class="artist">Guttermouth</div>
+            <div class="albumName">Musical Monkey</div>
+        </div>
       </div>
 
+      <div class="album next-4">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/1f89759fa92b4c8f86cd7efac06f2d90.png">
+        <div class="sleeve"></div>
+        <div class='title'>
+            <div class="artist">NOFX</div>
+            <div class="albumName">Punk in Drublic</div>
+        </div>
+      </div>
+
+      <div class="album hideRight">
+        <img alt="My Album" src="https://lastfm.freetls.fastly.net/i/u/300x300/ca4172637c984cf5cc3ea77c49bf26ea.jpg">
+        <div class="sleeve"></div>
+        <div class='title'>
+            <div class="artist">Reel Big Fish</div>
+            <div class="albumName">Turn the Radio Off</div>
+        </div>
+      </div>
     </div>
+    <button onclick="return app.carousel.next()" class="nav" id="nextBtn">▸</button>
 
     <div class="buttons">
       <button id="prev">Prev</button>
