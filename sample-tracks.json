@@ -1,0 +1,36 @@
+{
+    "tracks": [
+        {
+            "name": "Linoleum",
+            "artist": "NOFX"
+        },
+        {
+            "name": "D'yer Mak'er",
+            "artist": "Led Zeppelin"
+        },
+        {
+            "name": "Money",
+            "artist": "Pink Floyd"
+        },
+        {
+            "name": "The Decline",
+            "artist": "NOFX"
+        },
+        {
+            "name": "You",
+            "artist": "Bad Religion"
+        },
+        {
+            "name": "Suffer",
+            "artist": "Bad Religion"
+        },
+        {
+            "name": "Hey Ladies",
+            "artist": "Beastie Boys"
+        },
+        {
+            "name": "Bigger than Kiss",
+            "artist": "Teenage Bottlerocket"
+        }
+    ]
+}

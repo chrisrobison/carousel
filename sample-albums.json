@@ -1,0 +1,17 @@
+{
+    "albums": [
+        { "name": "Punk in Drublic", "artist": "NOFX" },
+        { "name": "Houses of the Holy", "artist": "Led Zeppelin" },
+        { "name": "Dark Side of the Moon", "artist": "Pink Floyd" },
+        { "name": "Sublime", "artist": "Sublime" },
+        { "name": "The Decline", "artist": "NOFX" },
+        { "name": "No Control", "artist": "Bad Religion" },
+        { "name": "Suffer", "artist": "Bad Religion" },
+        { "name": "Paul's Boutique", "artist": "Beastie Boys" },
+        { "name": "Tales from Wyoming", "artist": "Teenage Bottlerocket" },
+        { "name": "Legend", "artist": "Bob Marley & the Wailers" },
+        { "name": "Aerosmith's Greatest Hits", "artist": "Aerosmith" },
+        { "name": "Fly Like an Eagle", "artist": "Steve Miller Band" },
+        { "name": "Appetite for Destruction", "artist": "Guns N' Roses" }
+    ]
+}
