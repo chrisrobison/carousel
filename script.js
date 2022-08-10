@@ -213,7 +213,7 @@ app.carousel = {
                 let url = data.album.image[data.album.image.length-1]['#text'];
                 
                 if (!url) {
-                    url = "unknown.jpg";
+                    url = "img/unknown.jpg";
                     cover.style.background = "#999";
                 }
                 if (cover) {
@@ -257,17 +257,36 @@ console.dir(data);
                 out += `<div class='playcount'>Playcount: ${app.carousel.makeHuman(data.album.playcount)}</div>`;
                 out += `<div class='playcount'>Listeners: ${app.carousel.makeHuman(data.album.listeners)}</div>`;
             }
-            out += "<div class='similar'></div>";
             out += `<div class='debug'>MBID: ${data.album.mbid}</div>`;
             out += '</div>';
+            out += "<div class='similar'></div>";
 
             console.dir(out);        
             app.carousel.data.albums[album+artist].ui = out;
 
             $(".selected").classList.add('tabtracks');
             $(".selected").classList.remove('tabinfo');
+            $(".selected").classList.remove('tabsimilar');
             $(".selected").querySelector(".sleeve").innerHTML = out;
+            app.carousel.similarArtists(artist);
         });
+    },
+    similarArtists: function(artist) {
+        fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getSimilar&artist=${artist}&api_key=8ab04dc41aad7d43deffb0e2ba49b690&format=json`).then(res=>res.json())
+            .then(data=>{
+                let list = data.similarartists.artist;
+                let out = "";
+                list.forEach((item, idx)=>{
+                    if (idx < 15) {
+                        out += `<div class='card'><a href='#'><img src='/art.php?q=${item.name}' height='100' width='100'><div>${item.name}</div></a></div>`;
+                    }
+                });
+
+                $(".selected .similar").innerHTML = out;
+            });
+    },
+    addAlbum: function(artist, album) {
+        
     },
     makeHuman: function(num) {
         let out = '',
@@ -388,7 +407,7 @@ console.dir(data);
         data.albums.forEach((album, idx) => {
             app.carousel.albumUpdate(album.artist, album.name, idx);
         });
-    
+        app.selected = $(".selected");
     },
     load: function(url) {
         // console.dir(url);
@@ -396,10 +415,9 @@ console.dir(data);
     },
     scroll: function(e) {
         const now = Date.now();
-        
-        if (e.target.classList.contains("sleeve")) {
+        if ($(".selected .sleeve").contains(e.target)) {
             console.log("scrolling over sleeve");
-            //return true;
+            return true;
         };
         e.preventDefault();
         e.stopPropagation();
@@ -438,9 +456,6 @@ console.dir(data);
         app.carousel.state.delta.y = 0;
     },
     init: function() {
-        let events = {
-            wheel: [app.carousel.scroll
-        };
         window.addEventListener("wheel", app.carousel.scroll, { passive: false });
         document.addEventListener("keydown", app.carousel.keypress);
         $("#carousel").addEventListener("mousedown", app.carousel.doDown);
@@ -452,6 +467,7 @@ console.dir(data);
         app.carousel.reorder();
         $('#prev').addEventListener("click", app.carousel.previous);
         $('#next').addEventListener("click", app.carousel.next);
+        app.carousel.load("sample-albums.json");
         app.selected = $(".selected");
 
     },

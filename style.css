@@ -1,4 +1,5 @@
 html, body, main {
+  font-family: "Lexend", "Helvetica Neue", "Helvetica", sans-serif;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -9,7 +10,8 @@ html, body, main {
 main {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
+    overflow:hidden;
 }
 #carousel {
   position: relative;
@@ -62,8 +64,8 @@ main {
 }
 #carousel div.next-1 {
   z-index: 5;
-  left: 70vw;
-  width: 21vw;
+  left: 60vw;
+  width: 23vw;
   transform: translateY(50px) translateX(-50%);
 }
 #carousel div.prev-1 {
@@ -74,8 +76,8 @@ main {
 }
 #carousel div.next-2 {
   z-index: 4;
-  left: 80vw;
-  width: 18vw;
+  left: 71vw;
+  width: 21vw;
   transform: translateY(6vh) translateX(-50%);
 }
 #carousel div.prev-2 {
@@ -86,8 +88,8 @@ main {
 }
 #carousel div.next-3 {
   z-index: 3;
-  left: 90vw;
-  width: 18vw;
+  left: 79vw;
+  width: 20vw;
   transform: translateY(7vh) translateX(-50%);
 }
 #carousel div.prev-3 {
@@ -99,8 +101,8 @@ main {
 
 #carousel div.next-4 {
   z-index: 2;
-  left: 100vw;
-  width: 15vw;
+  left: 87vw;
+  width: 18vw;
   transform: translateY(9vh) translateX(-50%);
 }
 #carousel div.prev-4 {
@@ -123,15 +125,15 @@ main {
 }
 #carousel div.selected {
   z-index: 10;
-  left: 47vw;
+  left: 45vw;
   width: 30vw;
   transform: translateY(0px) translateX(-50%);
   overflow: visible;
 }
 #carousel .title {
     font-family: "Lexend", "Helvetica Neue", sans-serif;
-    font-weight: bold;
-    font-size: 24px;
+    font-weight: 400;
+    font-size: 2vw;
     position: relative;
     text-align: right;
     color: #fff;
@@ -139,25 +141,25 @@ main {
 }
 
 #carousel .next-1 .title, #carousel .prev-1 .title {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 1.5vw;
+    font-weight: 300;
     color: #fffc;
 }
 
 #carousel .next-2 .title, #carousel .prev-2 .title {
-    font-size: 12px;
+    font-size: 1.25vw;
     font-weight: 300;
     color: #fffa;
 }
 
 #carousel .next-3 .title, #carousel .prev-3 .title {
-    font-size: 10px;
-    font-weight: 300;
+    font-size: 0.75vw;
+    font-weight: 200;
     color: #fff9;
 }
 
 #carousel .next-4 .title, #carousel .prev-4 .title {
-    font-size: 10px;
+    font-size: 0.5vw;
     font-weight: 200;
     color: #fff6;
 }
@@ -173,7 +175,7 @@ main {
 }
 #carousel .selected .title {
     display: flex;
-    width: 100%;
+    width: 29vw;
     flex-direction: column;
     padding:.25em;
     align-items: flex-end;
@@ -214,9 +216,9 @@ main {
     height: 29.5vw;
     width: 0vw;
     overflow: scroll;
-    background-image: url("sleeve.png");
+    background-image: url("img/sleeve.png");
     background-position: 0px 0px;
-    background-size: 30vw 30vw;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     transition: margin 500ms cubic-bezier(0,.3,.25,.97), width 300ms cubic-bezier(0,.3,.25,.97), z-index 0ms, transform 500ms cubic-bezier(0,.3,.25,.97);
 }
@@ -229,8 +231,11 @@ main {
     margin-left: 22vw;
     width: 30vw;
 }
-#carousel .selected.open img {
-    margin-left: -8vw;
+#carousel .selected.open > img {
+    margin-left: -10em;
+}
+#carousel .selected.open .title {
+    margin-left: -7em;
 }
 .track-length {
     font-weight: 200;
@@ -261,15 +266,21 @@ h1, h2, h3, h4, h5 {
     font-size: 24px;
     padding-left: 0.5em;    
 }
+#carousel .tabinfo .sleeve .similar {
+    position: absolute;
+    top: 7em;
+    left: 0px;
+    display: none;
+}
 #carousel .tabinfo .sleeve .liner {
     position: absolute;
-    top: 6em;
+    top: 7em;
     left: 0px;
     display: none;
 }
 #carousel .tabinfo .sleeve .info {
     position: absolute;
-    top: 6em;
+    top: 7em;
     left: 0px;
     height: 23em;
     width: 23em;
@@ -278,24 +289,67 @@ h1, h2, h3, h4, h5 {
     padding: 1em 1em 1em 1em;
     border-top: 1px solid #333;
 }
+#carousel .tabsimilar .sleeve .liner {
+    position: absolute;
+    top: 7em;
+    left: 0px;
+    display: none;
+}
+#carousel .tabsimilar .sleeve .info {
+    position: absolute;
+    top: 7em;
+    left: 0px;
+    display: none;
+}
+#carousel .tabsimilar .sleeve .similar {
+    position: absolute;
+    top: 7em;
+    left: 0px;
+    display: flex;
+    padding: 0px 0px 1em 1em;
+    border-top: 1px solid #333;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    overflow: scroll;
+    width:86%;
+}
 #carousel .tabtracks .sleeve .info {
     position: absolute;
-    top: 6em;
+    top: 7em;
+    left: 0px;
+    display: none;
+    overflow: scroll;
+}
+#carousel .tabtracks .sleeve .similar {
+    position: absolute;
+    top: 7em;
     left: 0px;
     display: none;
 }
 #carousel .tabtracks .sleeve .liner {
     position: absolute;
-    top: 6em;
+    top: 7em;
     left: 0px;
     display: block;
-    padding: 0em 4em 1em 1em;
+    padding: 0em 0px 1em 1em;
     border-top: 1px solid #333;
+    width: 86%;
+}
+#carousel .liner, #carousel .similar, #carousel .info {
+    height:78%;
+    overflow:scroll;
 }
 .tabbar {
   background-color: #0006;
   margin-right: 2em;
   padding: .5em 0.5em 0 0.5em;
+  height:2em;
+  overflow: hidden;
+  display:flex;
+  flex-direction: row;
+  align-items: flex-end;
 }
 
 a.tab {
@@ -306,50 +360,71 @@ a.tab {
   text-decoration: none;
   color: #000;
   cursor: pointer;
+  border-left: #000c;
+  border-left: 1px solid #000a;
 }
 
-.tabinfo a.tab.infotab {
+#carousel .tabinfo a.tab.infotab {
   top: 0px;
   position: relative;
   background-color: #eaded2;
 }
-.tabinfo a.tab.trackstab {
+#carousel .tabinfo a.tab.trackstab {
   top: 3px;
   position: relative;
   background-color: #eaded2aa;
 }
-.tabinfo a.tab.similartab {
+#carousel .tabinfo a.tab.similartab {
   top: 3px;
   position: relative;
   background-color: #eaded2aa;
 }
-.tabtracks a.tab.infotab {
+#carousel .tabtracks a.tab.infotab {
   top: 3px;
   position: relative;
   background-color: #eaded2aa;
 }
-.tabtracks a.tab.trackstab {
+#carousel .tabtracks a.tab.trackstab {
   top: 0px;
   position: relative;
   background-color: #eaded2;
 }
-.tabtracks a.tab.similartab {
+#carousel .tabtracks a.tab.similartab {
   top: 3px;
   position: relative;
   background-color: #eaded2aa;
 }
-.tabsimilar a.tab.infotab {
+#carousel .tabsimilar a.tab.infotab {
   top: 3px;
   position: relative;
   background-color: #eaded2aa;
 }
-.tabsimilar a.tab.trackstab {
+#carousel .tabsimilar a.tab.trackstab {
   top: 3px;
   position: relative;
   background-color: #eaded2aa;
 }
-.tabsimilar a.tab.similartab {
+#carousel .tabsimilar a.tab.similartab {
   top: 0px;
   position: relative;
   background-color: #eaded2;
+}
+.card a div {
+    width:100px;
+    text-align:center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+form {
+    background-color:#fff9;
+    color:#000;
+}
+#carousel a, #carousel a:visited {
+    text-decoration: none;
+    color:#333;
+}
+#carousel .card {
+    margin-bottom: 0.25em;
+    font-size: 0.8em;
 }
