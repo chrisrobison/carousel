@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<form onsubmit="return false;">
+<form onsubmit="return app.carousel.addAlbum(event);">
     <fieldset>
         <legend>Add Album</legend>
         <label for='artist'>Artist</label>
         <input type='text' name='artist' id='artist' size='20' placeholder='Beastie Boys'>
         <label for='album'>Album</label>
         <input type='text' name='album' id='album' size=20 placeholder="Paul's Boutique">
-        <button id='addAlbum'>Add Album</button>
+        <button onclick='return app.carousel.formAlbum(event);' id='addAlbum'>Add Album</button>
     </fieldset>
 </form>
 <main>

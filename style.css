@@ -188,12 +188,16 @@ main {
   bottom: 10px;
 }
 .nav {
-    height: 100%;
+    height: 2em;
+    width: 2.2em;
+    top:40%;
     font-size: 50px;
     color:#000;
     position: relative;
     z-index: 999;
-    background-color: #999;
+    background-color: #fff9;
+    border: none;
+    border-radius: 50%;
     box-shadow: -4px 0px 4px #0006;
 }
 #prevBtn {
@@ -220,7 +224,7 @@ main {
     background-position: 0px 0px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    transition: margin 500ms cubic-bezier(0,.3,.25,.97), width 300ms cubic-bezier(0,.3,.25,.97), z-index 0ms, transform 500ms cubic-bezier(0,.3,.25,.97);
+    transition: margin 500ms cubic-bezier(0,.3,.25,.97), width 500ms cubic-bezier(0,.3,.25,.97), z-index 0ms, transform 500ms cubic-bezier(0,.3,.25,.97);
 }
 .album {
     width: 25vw;
@@ -228,8 +232,8 @@ main {
     overflow: visible;
 }
 #carousel .selected.open .sleeve {
-    margin-left: 22vw;
-    width: 30vw;
+    margin-left: 20vw;
+    width: 32vw;
 }
 #carousel .selected.open > img {
     margin-left: -10em;
@@ -266,42 +270,53 @@ h1, h2, h3, h4, h5 {
     font-size: 24px;
     padding-left: 0.5em;    
 }
-#carousel .tabinfo .sleeve .similar {
+#carousel .tabinfo .sleeve .card-albums {
     position: absolute;
     top: 7em;
     left: 0px;
     display: none;
 }
-#carousel .tabinfo .sleeve .liner {
+#carousel .tabinfo .sleeve .card-similar {
     position: absolute;
     top: 7em;
     left: 0px;
     display: none;
 }
-#carousel .tabinfo .sleeve .info {
+#carousel .tabinfo .sleeve .card-liner {
     position: absolute;
     top: 7em;
     left: 0px;
-    height: 23em;
-    width: 23em;
+    display: none;
+}
+#carousel .tabalbums .sleeve .card-albums {
+    position: absolute;
+    top: 7em;
+    left: 0px;
+    height: 23vw;
+    width: 26vw;
+    overflow: scroll;
+    display: flex;
+    padding: 1em 1em 1em 2em;
+    border-top: 1px solid #333;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+}
+#carousel .tabinfo .sleeve .card-info {
+    position: absolute;
+    top: 7em;
+    left: 0px;
+    height: 23vw;
+    width: 26vw;
     overflow: scroll;
     display: block;
-    padding: 1em 1em 1em 1em;
+    padding: 1em 1em 1em 2em;
     border-top: 1px solid #333;
 }
-#carousel .tabsimilar .sleeve .liner {
-    position: absolute;
-    top: 7em;
-    left: 0px;
-    display: none;
-}
-#carousel .tabsimilar .sleeve .info {
-    position: absolute;
-    top: 7em;
-    left: 0px;
-    display: none;
-}
-#carousel .tabsimilar .sleeve .similar {
+#carousel .tabsimilar .sleeve .card-liner { display: none; }
+#carousel .tabsimilar .sleeve .card-info { display: none; }
+#carousel .tabsimilar .sleeve .card-albums { display: none; }
+#carousel .tabsimilar .sleeve .card-similar {
     position: absolute;
     top: 7em;
     left: 0px;
@@ -315,20 +330,10 @@ h1, h2, h3, h4, h5 {
     overflow: scroll;
     width:86%;
 }
-#carousel .tabtracks .sleeve .info {
-    position: absolute;
-    top: 7em;
-    left: 0px;
-    display: none;
-    overflow: scroll;
-}
-#carousel .tabtracks .sleeve .similar {
-    position: absolute;
-    top: 7em;
-    left: 0px;
-    display: none;
-}
-#carousel .tabtracks .sleeve .liner {
+#carousel .tabtracks .sleeve .card-info { display: none; }
+#carousel .tabtracks .sleeve .card-similar { display: none; }
+#carousel .tabtracks .sleeve .card-albums { display: none; }
+#carousel .tabtracks .sleeve .card-liner {
     position: absolute;
     top: 7em;
     left: 0px;
@@ -337,7 +342,8 @@ h1, h2, h3, h4, h5 {
     border-top: 1px solid #333;
     width: 86%;
 }
-#carousel .liner, #carousel .similar, #carousel .info {
+#carousel .card-liner, #carousel .card-similar, #carousel .card-info, #carousel .card-albums {
+    display: none;
     height:78%;
     overflow:scroll;
 }
@@ -352,63 +358,25 @@ h1, h2, h3, h4, h5 {
   align-items: flex-end;
 }
 
-a.tab {
+#carousel .sleeve a.tab {
   padding: 0.25em 2em;
-  background-color: #eaded2;
+  background-color: #eaded299;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   text-decoration: none;
+  top: 3px;
+  position: relative;
   color: #000;
   cursor: pointer;
   border-left: #000c;
   border-left: 1px solid #000a;
 }
 
-#carousel .tabinfo a.tab.infotab {
-  top: 0px;
-  position: relative;
-  background-color: #eaded2;
+#carousel .sleeve a.tabselected {
+    background-color: #eaded2;
+    top: 0px;
 }
-#carousel .tabinfo a.tab.trackstab {
-  top: 3px;
-  position: relative;
-  background-color: #eaded2aa;
-}
-#carousel .tabinfo a.tab.similartab {
-  top: 3px;
-  position: relative;
-  background-color: #eaded2aa;
-}
-#carousel .tabtracks a.tab.infotab {
-  top: 3px;
-  position: relative;
-  background-color: #eaded2aa;
-}
-#carousel .tabtracks a.tab.trackstab {
-  top: 0px;
-  position: relative;
-  background-color: #eaded2;
-}
-#carousel .tabtracks a.tab.similartab {
-  top: 3px;
-  position: relative;
-  background-color: #eaded2aa;
-}
-#carousel .tabsimilar a.tab.infotab {
-  top: 3px;
-  position: relative;
-  background-color: #eaded2aa;
-}
-#carousel .tabsimilar a.tab.trackstab {
-  top: 3px;
-  position: relative;
-  background-color: #eaded2aa;
-}
-#carousel .tabsimilar a.tab.similartab {
-  top: 0px;
-  position: relative;
-  background-color: #eaded2;
-}
+
 .card a div {
     width:100px;
     text-align:center;
@@ -426,5 +394,11 @@ form {
 }
 #carousel .card {
     margin-bottom: 0.25em;
+    margin-left: 1em;
     font-size: 0.8em;
 }
+#carousel .album.open .infohead {
+    text-align: right;
+    width: 27vw;
+}
+

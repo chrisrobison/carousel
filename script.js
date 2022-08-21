@@ -22,6 +22,32 @@ app.carousel = {
             childs[j].dataset.pos = j;
         }
     },
+    updatePositions: function() {
+        let cur = $(".selected");
+        let next, prev, cnt=1;
+
+        while (next = cur.nextElementSibling) {
+            if (cnt < 5) {
+                next.className = `album next-${cnt}`; 
+            } else {
+                next.className = 'album hideRight';
+            }
+            cur = next;
+            cnt++;
+        }
+
+        cur = $(".selected");
+        cnt = 1;
+        while (next = cur.previousElementSibling) {
+            if (cnt < 5) {
+                next.className = `album prev-${cnt}`;
+            } else {
+                next.className = 'album hideLeft';
+            }
+            cur = next;
+            cnt++;
+        }
+    },
     move: function(el) {
         let selected = el;
 
@@ -32,6 +58,7 @@ app.carousel = {
         if (app.carousel.state.sleeve) {
             app.carousel.closeSleeve();    
         }
+        app.carousel.closeSleeve();    
 
         let curpos = parseInt(app.selected.dataset.pos);
         let tgtpos = parseInt(selected.dataset.pos);
@@ -155,8 +182,10 @@ app.carousel = {
         let direction = 0, 
             velocity = 0,
             tgt = e.target;
-        if (e.target.classList.contains('tab')) {
-            return false;
+        if ((e.target.classList.contains('tab')) || 
+            (tgt.classList.contains('card-similar') || tgt.offsetParent.classList.contains('card-similar')) || 
+            (tgt.classList.contains('card-albums') || tgt.offsetParent.classList.contains('card-albums'))) {
+            return true;
         }
         if (app.carousel.state.downX) {
             direction = (app.carousel.state.downX > e.x) ? -1 : 1;
@@ -201,23 +230,24 @@ app.carousel = {
         app.carousel.state.sleeve ^= 1;
         //setTimeout(function() { $(".selected").classList.toggle("open"); }, 1000);
         sel.classList.toggle("open");
-        sel.querySelector(".sleeve").style.marginLeft = (app.carousel.state.sleeve) ? "22vw" : "0vw";
-        app.carousel.albumInfo(sel.querySelector(".artist").innerHTML, sel.querySelector(".albumName").innerHTML);
+        sel.querySelector(".sleeve").style.marginLeft = (app.carousel.state.sleeve) ? "20vw" : "0vw";
+        app.carousel.albumInfo(sel.querySelector(".artist").innerText, sel.querySelector(".albumName").innerText);
     },
     albumUpdate: function(artist, album, idx) {
         const card = $(`#album-${idx}`);
         if (card) {
 
             app.carousel.albumGet(artist, album).then(data=> {
+                app.carousel.data.albums[album+artist].lastfm = data;
                 let cover = card.querySelector("img");
                 let url = data.album.image[data.album.image.length-1]['#text'];
                 
                 if (!url) {
-                    url = "img/unknown.jpg";
+                    url = "img/unknown.png";
                     cover.style.background = "#999";
                 }
                 if (cover) {
-                    console.log( url);
+                    //console.log( url);
                     cover.src = url;
                 }
                 
@@ -225,27 +255,24 @@ app.carousel = {
         }
     },
     albumGet: function(artist, album) {
-        if (app.carousel.data.albums[artist+album]) {
-            Promise.resolve({album: app.carousel.data.albums[artist+album]});
+        if (app.carousel.data.albums[artist+album] && app.carousel.data.albums[artist+album].lastfm) {
+            Promise.resolve(app.carousel.data.albums[artist+album].lastfm);
         } else {
             return fetch(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=8ab04dc41aad7d43deffb0e2ba49b690&artist=${artist}&album=${album}&format=json`).then(r=>r.json());
         }
     },
-    albumInfo: function(artist, album) {
-        console.log(`looking up for artist: ${artist} album: ${album}`);
-        fetch(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=8ab04dc41aad7d43deffb0e2ba49b690&artist=${artist}&album=${album}&format=json`).then(r=>r.json()).then(data=>{
-            let out = `<div class='tabbar'><a class='tab trackstab' href='#${album}' onclick='return app.carousel.showTracks(event)'>Tracks</a><a class='tab infotab' href='#${album}_info' onclick='return app.carousel.showInfo(event)'>Info</a><a class='tab similartab' href='#${artist}_similar' onclick='return app.carousel.showSimilar(event)'>Similar</a></div><div class='infohead'><h1>${artist}</h1><h2>${album}</h2></div><div class='liner'><ol class='tracks'>`;
-console.dir(data);
-            app.carousel.data.albums[album+artist] = data.album;
+    albumCards: function(data, album, artist) {
+            if (data && album && artist) {
+            let out = `<div class='card-liner'><ol class='tracks'>`;
             
-            if (data.album.tracks.track && data.album.tracks.track.length) {
+            if (data.album?.tracks?.track?.length) {
                 data.album.tracks.track.forEach((item, idx) => {
-                console.dir(item);
+                //console.dir(item);
                     out += `<li>${item.name} <span class='track-length'>[${app.carousel.formatTime(item.duration)}]</span></li>`;
                 });
             }
             out += "</ol></div>";
-            out += "<div class='info'>";
+            out += "<div class='card-info'>";
             if (data.album.wiki && data.album.wiki.content) {
                 let content = data.album.wiki.content;
                 content = content.replace(/\n/g, '<br>').replace(/<a.+?Read\smore.*/, '');
@@ -259,17 +286,57 @@ console.dir(data);
             }
             out += `<div class='debug'>MBID: ${data.album.mbid}</div>`;
             out += '</div>';
-            out += "<div class='similar'></div>";
-
-            console.dir(out);        
-            app.carousel.data.albums[album+artist].ui = out;
+            out += "<div class='card-albums'></div>";
+            out += "<div class='card-similar'></div>";
 
             $(".selected").classList.add('tabtracks');
-            $(".selected").classList.remove('tabinfo');
-            $(".selected").classList.remove('tabsimilar');
-            $(".selected").querySelector(".sleeve").innerHTML = out;
+            $(".selected").querySelector(".sleeve").innerHTML += out;
+            
+            app.carousel.data.albums[album+artist].ui += out;
+            
             app.carousel.similarArtists(artist);
+            app.carousel.topAlbums(artist);
+        } else {
+            console.log(`ERROR: called without artist or album: artist:${artist} album:${album}`);
+            console.dir(data);
+        }
+    },
+    albumInfo: function(artist, album) {
+        //console.log(`looking up for artist: ${artist} album: ${album}`);
+
+        let out = `<div class='tabbar'>`, first = ' tabselected';
+        app.carousel.config.tabs.forEach(tab=>{
+            out += `<a class='tab ${tab}tab${first}' href='#${album}_${tab}' onclick="return app.carousel.switchTab('${tab}', event)">${tab.replace(/\b\w/g, c=> c.toUpperCase())}</a>`;
+            first = '';
         });
+        out += "</div>";
+        out += `<div class='infohead'><h1>${artist}</h1><h2>${album}</h2></div>`;
+        app.carousel.data.albums[album+artist].ui = out;
+        $(".selected").querySelector(".sleeve").innerHTML = out;
+
+        if (!app.carousel.data.albums[album+artist].lastfm) {
+            fetch(`https://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=8ab04dc41aad7d43deffb0e2ba49b690&artist=${artist}&album=${album}&format=json`).then(r=>r.json()).then(data=>{
+                app.carousel.data.albums[album+artist].lastfm = data;
+                app.carousel.albumCards(data, album, artist);
+            });
+        } else {
+            app.carousel.albumCards(app.carousel.data.albums[album+artist].lastfm, album, artist);
+        }
+    },
+    topAlbums: function(artist) {
+        artist = artist.replace(/'/g, "\\\'");
+        fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getTopAlbums&artist=${artist}&api_key=8ab04dc41aad7d43deffb0e2ba49b690&format=json`).then(res=>res.json())
+            .then(data=>{
+                let list = data.topalbums.album;
+                let out = "";
+                list.forEach((item, idx)=>{
+                    if (idx < 16) {
+                        out += `<div class='card'><a title='${item.name}' href='#${item.name.replace(/\s/g, '_')}' onclick="return app.carousel.addAlbum('${artist}','${item.name}')"><img src='/art.php?q=${artist}&l=${item.name}' height='100' width='100'><div>${item.name}</div></a></div>`;
+                    }
+                });
+
+                $(".selected .card-albums").innerHTML = out;
+            });
     },
     similarArtists: function(artist) {
         fetch(`https://ws.audioscrobbler.com/2.0/?method=artist.getSimilar&artist=${artist}&api_key=8ab04dc41aad7d43deffb0e2ba49b690&format=json`).then(res=>res.json())
@@ -277,16 +344,13 @@ console.dir(data);
                 let list = data.similarartists.artist;
                 let out = "";
                 list.forEach((item, idx)=>{
-                    if (idx < 15) {
-                        out += `<div class='card'><a href='#'><img src='/art.php?q=${item.name}' height='100' width='100'><div>${item.name}</div></a></div>`;
+                    if (idx < 16) {
+                        out += `<div class='card'><a title='${item.name}' href='https://en.wikipedia.org/wiki/${item.name.replace(/\s/g, '_')}' target='_blank'><img src='/art.php?q=${item.name}' height='100' width='100'><div>${item.name}</div></a></div>`;
                     }
                 });
 
-                $(".selected .similar").innerHTML = out;
+                $(".selected .card-similar").innerHTML = out;
             });
-    },
-    addAlbum: function(artist, album) {
-        
     },
     makeHuman: function(num) {
         let out = '',
@@ -316,62 +380,39 @@ console.dir(data);
         }
         return formatted;
     },
-    showTracks: function(e) {
-        console.log("showTracks");
-        console.dir(e);
-        let par, el = e.target;
+    switchTab: function(tab, evt) {
+        console.log("switchTab");
+        console.dir(evt);
+        
+        
+        let par = app.carousel.findParent(evt.target, 'album');
+        if (par) {
+            app.carousel.clearTabs(par);
+            par.classList.add(`tab${tab}`);
+            par.querySelector(".tabselected")?.classList.remove('tabselected');
+            par.querySelector(`a.tab.${tab}tab`)?.classList.add('tabselected');
+        }
 
+        return app.carousel.blockEvent(evt);
+    },
+    findParent: function(el, tgtClass) {
+        let par;
         while (!par) {
-            if (el.className.match(/album/)) {
-               par = el;
+            if (el.classList.contains(tgtClass)) {
+              return el;
             }
             el = el.parentElement;
         }
-        par.classList.add('tabtracks');
-        par.classList.remove('tabinfo');
-        par.classList.remove('tabsimilar');
-
-        e.stopPropagation();
-        e.preventDefault();
         return false;
     },
-    showInfo: function(e) {
-        console.log("showInfo");
-        console.dir(e);
-        let par, el = e.target;
-
-        while (!par) {
-            if (el.className.match(/album/)) {
-               par = el;
-            }
-            el = el.parentElement;
-        }
-        par.classList.remove('tabtracks');
-        par.classList.remove('tabsimilar');
-        par.classList.add('tabinfo');
-
-        e.stopPropagation();
-        e.preventDefault();
+    blockEvent: function(evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
         return false;
     },
-    showSimilar: function(e) {
-        console.log("showSimilar");
-        console.dir(e);
-        let par, el = e.target;
-
-        while (!par) {
-            if (el.className.match(/album/)) {
-               par = el;
-            }
-            el = el.parentElement;
-        }
-        par.classList.remove('tabtracks');
-        par.classList.remove('tabinfo');
-        par.classList.add('tabsimilar');
-
-        e.stopPropagation();
-        e.preventDefault();
-        return false;
+    clearTabs: function(container) {
+        const tabs = ['tracks', 'info', 'albums', 'similar'];
+        tabs.forEach(tab => container.classList.remove(`tab${tab}`));
     },
     fetchData: function(url, cb) {
         fetch(url).then(
@@ -386,8 +427,36 @@ console.dir(data);
         cls = cls ? cls : 'hideRight';
         return `<div ${did} class="album ${cls}"><img alt="${data.name}" src="${data.url}"><div class="sleeve"></div><div class="title"><div class="artist">${data.artist}</div><div class="albumName">${data.name}</div></div></div>`;
     },
-    getArt: function(album, artist, img) {
+    getArt: function(artist, album, img) {
         
+    },
+    formAlbum: function(e) {
+        let artist = $("#artist").value;
+        let album = $("#album").value;
+        e.preventDefault();
+        e.stopPropagation();
+        return app.carousel.addAlbum(artist, album);
+    },
+    addAlbum: function(artist, album) {
+        app.carousel.toggleSleeve();
+
+        let wrap = document.createElement("div");
+        let count = $$("#carousel > .album").length;
+        app.carousel.data.albumCount = count;
+
+        wrap.innerHTML = app.carousel.makeItem({artist: artist, name: album, url: `/art.php?q=${artist}&l=${album}` }, 'next-1', `album-${count}`);
+        let el = wrap.querySelector("div.album");
+        //console.dir(el);
+        //console.dir(wrap);
+        $(".selected").parentNode.insertBefore(el, $(".selected").nextSibling);
+        app.carousel.reorder();
+        app.carousel.data.albums[`${album}${artist}`] = {name: album, artist: artist};
+        app.carousel.albumUpdate(artist, album, count);
+        app.carousel.data.albumCount++;
+        app.carousel.updatePositions();
+        setTimeout(function() { app.carousel.select(el); }, 500);
+        setTimeout(app.carousel.toggleSleeve, 1000);
+        return false;
     },
     fillCarousel: function(data) {
         console.log("fillCarousel");
@@ -396,6 +465,7 @@ console.dir(data);
         let kl = keys.length, key = '';
         data.albums.forEach((item, idx)=>{
             key = (idx > kl) ? 'hideRight' : keys[idx];
+            app.carousel.data.albums[item.name+item.artist] = {};
             html = app.carousel.makeItem(item, key, `album-${idx}`);
             out += html;
         });
@@ -403,6 +473,7 @@ console.dir(data);
         app.carousel.reorder();
     },
     addAlbums: function(data) {
+        app.carousel.data.albumsList = data.albums;
         app.carousel.fillCarousel(data);
         data.albums.forEach((album, idx) => {
             app.carousel.albumUpdate(album.artist, album.name, idx);
@@ -482,7 +553,11 @@ console.dir(data);
     data: {
         albums: {},
         artists: {},
-        tracks: {}
+        tracks: {},
+        albumCount: 0
+    },
+    config: {
+        tabs: ['tracks', 'info', 'albums', 'similar']
     }
 
 }
