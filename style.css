@@ -27,7 +27,8 @@ main {
 }
 #carousel > div {
   position: absolute;
-  transition: transform 500ms cubic-bezier(0,.3,.25,.97), left 500ms cubic-bezier(0,.3,.25,.97);
+  transition: transform 500ms cubic-bezier(0,.3,.25,.97), left 500ms cubic-bezier(0,.3,.25,.97), margin 500ms cubic-bezier(0,.3,.25,.97), z-index 0ms ;
+;
 }
 #carousel .selected.open > img {
     box-shadow: -0.5em 0 1em #0007, 0.5em 0 1em #0007;
@@ -292,7 +293,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     top: 7em;
     left: 0px;
-    height: 23vw;
+    height: 21vw;
     width: 26vw;
     overflow: scroll;
     display: flex;
@@ -306,7 +307,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     top: 7em;
     left: 0px;
-    height: 23vw;
+    height: 21vw;
     width: 26vw;
     overflow: scroll;
     display: block;
@@ -400,5 +401,22 @@ form {
 #carousel .album.open .infohead {
     text-align: right;
     width: 27vw;
+    opacity:0.8;
 }
-
+#carousel .album .stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+    border-top: 1px solid #0006;
+    position: absolute;
+    bottom: 1em;
+    width: 26vw;
+    font-size: .9em;
+}
+#carousel .debug {
+    position: absolute;
+    bottom:0px;
+    right: 0px;
+    font-size: 0.7em;
+    color:#0009;
+}
