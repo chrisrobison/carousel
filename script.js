@@ -106,11 +106,11 @@ app.carousel = {
         app.carousel.updateClass(prevThird, "album prev-3");
         app.carousel.updateClass(nextThird, "album next-3");
         
-        app.carousel.updateClass(prevForth, "album prev-4");
-        app.carousel.updateClass(nextForth, "album next-4");
+//        app.carousel.updateClass(prevForth, "album prev-4");
+//        app.carousel.updateClass(nextForth, "album next-4");
         
-        app.carousel.nextAll(nextForth).forEach(item=>{ item.className = 'album'; item.classList.add('hideRight') });
-        app.carousel.prevAll(prevForth).forEach(item=>{ item.className = 'album'; item.classList.add('hideLeft') });
+        app.carousel.nextAll(nextThird).forEach(item=>{ item.className = 'album'; item.classList.add('hideRight') });
+        app.carousel.prevAll(prevThird).forEach(item=>{ item.className = 'album'; item.classList.add('hideLeft') });
 
     },
     nextAll: function(el) {
@@ -281,8 +281,10 @@ app.carousel = {
             }
 
             if (data.album.playcount) {
-                out += `<div class='playcount'>Playcount: ${app.carousel.makeHuman(data.album.playcount)}</div>`;
-                out += `<div class='playcount'>Listeners: ${app.carousel.makeHuman(data.album.listeners)}</div>`;
+                out += `<div class='stats'><div class='playcount'>Plays: ${app.carousel.makeHuman(data.album.playcount)}</div>`;
+                out += `<div class='playcount'>Replay: ${(Math.floor((data.album.playcount / data.album.listeners) * 100)) / 100}</div>`;
+                out += `<div class='playcount'>Ratio: ${(Math.floor((data.album.listeners / data.album.playcount) * 100)) / 100}</div>`;
+                out += `<div class='playcount'>Listeners: ${app.carousel.makeHuman(data.album.listeners)}</div></div>`;
             }
             out += `<div class='debug'>MBID: ${data.album.mbid}</div>`;
             out += '</div>';
@@ -461,7 +463,8 @@ app.carousel = {
     fillCarousel: function(data) {
         console.log("fillCarousel");
         let out = "", html = "";
-        let keys = ['hideLeft', 'prev-4', 'prev-3', 'prev-2', 'prev-1', 'selected', 'next-1', 'next-2', 'next-3', 'next-4', 'hideRight'];
+        //let keys = ['hideLeft', 'prev-4', 'prev-3', 'prev-2', 'prev-1', 'selected', 'next-1', 'next-2', 'next-3', 'next-4', 'hideRight'];
+        let keys = ['hideLeft', 'prev-3', 'prev-2', 'prev-1', 'selected', 'next-1', 'next-2', 'next-3', 'hideRight'];
         let kl = keys.length, key = '';
         data.albums.forEach((item, idx)=>{
             key = (idx > kl) ? 'hideRight' : keys[idx];
@@ -529,11 +532,13 @@ app.carousel = {
     init: function() {
         window.addEventListener("wheel", app.carousel.scroll, { passive: false });
         document.addEventListener("keydown", app.carousel.keypress);
-        $("#carousel").addEventListener("mousedown", app.carousel.doDown);
-        $("#carousel").addEventListener("mousemove", app.carousel.doMove);
-        $("#carousel").addEventListener("touchstart", app.carousel.doDown, {passive: true});
-        $("#carousel").addEventListener("mouseup", app.carousel.doUp);
-        $("#carousel").addEventListener("touchend", app.carousel.doup);
+
+        let wrap = app.carousel.wrapper = $("#carousel");
+        wrap.addEventListener("mousedown", app.carousel.doDown);
+        wrap.addEventListener("mousemove", app.carousel.doMove);
+        wrap.addEventListener("touchstart", app.carousel.doDown, {passive: true});
+        wrap.addEventListener("mouseup", app.carousel.doUp);
+        wrap.addEventListener("touchend", app.carousel.doup);
 
         app.carousel.reorder();
         $('#prev').addEventListener("click", app.carousel.previous);

@@ -2,35 +2,43 @@
     "tracks": [
         {
             "name": "Linoleum",
-            "artist": "NOFX"
+            "artist": "NOFX",
+            "album": "Punk in Drublic"
         },
         {
             "name": "D'yer Mak'er",
-            "artist": "Led Zeppelin"
+            "artist": "Led Zeppelin",
+            "album": "Houses of the Holy"
         },
         {
             "name": "Money",
-            "artist": "Pink Floyd"
+            "artist": "Pink Floyd",
+            "album": "Dark Side of the Moon"
         },
         {
             "name": "The Decline",
-            "artist": "NOFX"
+            "artist": "NOFX",
+            "album": "The Decline"
         },
         {
             "name": "You",
-            "artist": "Bad Religion"
+            "artist": "Bad Religion",
+            "album": "No Control"
         },
         {
             "name": "Suffer",
-            "artist": "Bad Religion"
+            "artist": "Bad Religion",
+            "album": "Suffer"
         },
         {
             "name": "Hey Ladies",
-            "artist": "Beastie Boys"
+            "artist": "Beastie Boys",
+            "album": "Paul's Boutique"
         },
         {
             "name": "Bigger than Kiss",
-            "artist": "Teenage Bottlerocket"
+            "artist": "Teenage Bottlerocket",
+            "album": "Punk in Drublic"
         }
     ]
 }

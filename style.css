@@ -27,15 +27,14 @@ main {
 }
 #carousel > div {
   position: absolute;
-  transition: transform 500ms cubic-bezier(0,.3,.25,.97), left 500ms cubic-bezier(0,.3,.25,.97), margin 500ms cubic-bezier(0,.3,.25,.97), z-index 0ms ;
-;
+   transition: transform 300ms cubic-bezier(0.17, 0.99, 0.67, 0.97), left 300ms cubic-bezier(0.23, 0.87, 0.51, 1.05) , margin 300ms cubic-bezier(0.15, 0.88, 0.51, 1), z-index 0ms;
 }
 #carousel .selected.open > img {
     box-shadow: -0.5em 0 1em #0007, 0.5em 0 1em #0007;
 }
 #carousel > div > img {
   width: 30vw;
-  transition: width 500ms cubic-bezier(0,.3,.25,.97), margin 500ms cubic-bezier(0,.3,.25,.97); 
+  transition: width 300ms cubic-bezier(0,.3,.25,.97), margin 300ms cubic-bezier(0,.3,.25,.97), z-index 300ms; 
    -webkit-user-drag: none;
    position: relative;
    z-index: 9999;
@@ -95,7 +94,7 @@ main {
 }
 #carousel div.prev-3 {
   z-index: 3;
-  left: 13vw;
+  left: 0vw;
   width: 18vw;
   transform: translateY(7vh) translateX(-50%);
 }
@@ -225,7 +224,7 @@ main {
     background-position: 0px 0px;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    transition: margin 500ms cubic-bezier(0,.3,.25,.97), width 500ms cubic-bezier(0,.3,.25,.97), z-index 0ms, transform 500ms cubic-bezier(0,.3,.25,.97);
+    transition: margin 500ms cubic-bezier(0,.3,.25,.97), width 500ms cubic-bezier(0,.3,.25,.97), z-index 100ms, transform 500ms cubic-bezier(0,.3,.25,.97);
 }
 .album {
     width: 25vw;
